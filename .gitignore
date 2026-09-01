@@ -1,0 +1,10 @@
+*
+!.gitignore
+!compose.yaml
+!compose.yml
+!caddy-config/
+!README.md
+!LICENSE
+!caddy-config/**/*
+!caddy-config/*
+!.zshrc
