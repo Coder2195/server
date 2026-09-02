@@ -5,6 +5,9 @@
 !caddy-config/
 !README.md
 !LICENSE
-!caddy-config/**/*
+
 !caddy-config/*
+!caddy-config/**/*
+!caddy_config/**/*
+!caddy_config/*
 !.zshrc
