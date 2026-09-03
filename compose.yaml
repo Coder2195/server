@@ -23,6 +23,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/
+      - ./postgres_config:/etc/postgresql_config/
+    command: postgres -c config_file=/etc/postgresql_config/postgresql.conf hba_file=/etc/postgresql_config/pg_hba.conf
     secrets:
       - postgres_password
 
@@ -52,4 +54,3 @@ secrets:
     file: secrets/cloudflare_api_token.txt
   postgres_password:
     file: secrets/postgres_password.txt
-

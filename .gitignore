@@ -2,12 +2,13 @@
 !.gitignore
 !compose.yaml
 !compose.yml
-!caddy-config/
 !README.md
 !LICENSE
 
-!caddy-config/*
-!caddy-config/**/*
+!caddy_config/
 !caddy_config/**/*
 !caddy_config/*
 !.zshrc
+
+!postgres_config
+!postgres_config/*.conf
