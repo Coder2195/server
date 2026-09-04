@@ -51,26 +51,38 @@ services:
     image: itzg/mc-proxy
     environment:
       TYPE: VELOCITY
-      CFG_MOTD: "Server hosted by &4&kaaa&k &4&lAmber &kaaa&k&r\nLike the server? support at &b&nko-fi.com/coder2195"
       REPLACE_ENV_VARIABLES: "true"
+      CFG_MOTD: "Server hosted by &4&kaaa&k &4&lAmber &kaaa&k&r\nLike the server? support at &b&nko-fi.com/coder2195"
     ports:
       - "25565:25565"
     volumes:
-      - ./minecraft/velocity.toml:/config/velocity.toml:ro
+      - ./minecraft/velocity.toml:/config/velocity.toml
+      - ./secrets/velocity_secret.txt:/config/forwarding.secret
       - minecraft_proxy:/server
 
   wic-smp:
+    secrets:
+      - velocity_secret
     restart: always
     container_name: wic-smp
     image: itzg/minecraft-server:latest
     volumes:
-      - wic_smp:/data
+      - ./minecraft/global_patches.json:/config/global_patches.json
       - ./minecraft/paper-global.yml:/config/paper-global.yml
+      - wic_smp:/data
     environment:
       TYPE: LEAF
       VERSION: 26.2
-      ONLINE_MODE: "FALSE"
+      ONLINE_MODE: FALSE
       EULA: TRUE
+      DEBUG: TRUE
+      SYNC_SKIP_NEWER_IN_DESTINATION: false
+      PATCH_DEFINITIONS: "/config/global_patches.json"
+      REPLACE_ENV_VARIABLES: "TRUE"
+      # define an optional prefix for your env variables you want to replace
+      ENV_VARIABLE_PREFIX: "CFG_"
+      # and here are the actual variables
+      CFG_VELOCITY_SECRET_FILE: "/run/secrets/velocity_secret"
    
 volumes:
   postgres_data:
@@ -84,4 +96,6 @@ secrets:
     file: secrets/cloudflare_api_token.txt
   postgres_password:
     file: secrets/postgres_password.txt
+  velocity_secret:
+    file: secrets/velocity_secret.txt
 

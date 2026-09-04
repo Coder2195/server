@@ -5,16 +5,12 @@
 !README.md
 !LICENSE
 
-!caddy_config/
-!caddy_config/**/*
-!caddy_config/*
+!.zshrc
+
 !caddy/
 !caddy/**/*
 !caddy/*
-!.zshrc
 
-!postgres_config
-!postgres_config/*.conf
 !postgresql
 !postgresql/*.conf
 
