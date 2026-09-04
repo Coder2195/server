@@ -8,7 +8,16 @@
 !caddy_config/
 !caddy_config/**/*
 !caddy_config/*
+!caddy/
+!caddy/**/*
+!caddy/*
 !.zshrc
 
 !postgres_config
 !postgres_config/*.conf
+!postgresql
+!postgresql/*.conf
+
+!minecraft
+!minecraft/*
+!minecraft/**/*

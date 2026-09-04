@@ -23,8 +23,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/
-      - ./postgres_config:/etc/postgresql_config/
-    command: postgres -c config_file=/etc/postgresql_config/postgresql.conf hba_file=/etc/postgresql_config/pg_hba.conf
+      - ./postgresql:/etc/postgresql_config/
+    command: postgres -c config_file=/etc/postgresql_config/postgresql.conf
     secrets:
       - postgres_password
 
@@ -39,18 +39,49 @@ services:
       - "443:443"
       - "443:443/udp"
     volumes:
-      - $PWD/caddy_config/:/etc/caddy/
+      - $PWD/caddy/:/etc/caddy/
       - $PWD/site:/var/www/html
       - caddy_data:/data
       - caddy_config:/config
 
+
+  minecraft-proxy:
+    restart: always
+    container_name: minecraft-proxy 
+    image: itzg/mc-proxy
+    environment:
+      TYPE: VELOCITY
+      CFG_MOTD: "Server hosted by &4&kaaa&k &4&lAmber &kaaa&k&r\nLike the server? support at &b&nko-fi.com/coder2195"
+      REPLACE_ENV_VARIABLES: "true"
+    ports:
+      - "25565:25565"
+    volumes:
+      - ./minecraft/velocity.toml:/config/velocity.toml:ro
+      - minecraft_proxy:/server
+
+  wic-smp:
+    restart: always
+    container_name: wic-smp
+    image: itzg/minecraft-server:latest
+    volumes:
+      - wic_smp:/data
+      - ./minecraft/paper-global.yml:/config/paper-global.yml
+    environment:
+      TYPE: LEAF
+      VERSION: 26.2
+      ONLINE_MODE: "FALSE"
+      EULA: TRUE
+   
 volumes:
   postgres_data:
   caddy_data:
   caddy_config:
+  wic_smp:
+  minecraft_proxy:
 
 secrets:
   cloudflare_api_token:
     file: secrets/cloudflare_api_token.txt
   postgres_password:
     file: secrets/postgres_password.txt
+
