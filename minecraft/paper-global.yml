@@ -100,7 +100,7 @@ proxies:
   velocity:
     enabled: true
     online-mode: true
-    secret: "abcdefg"
+    secret: "NeverGonnaGiveYouUpNeverGonnaLetYouDown67"
 scoreboards:
   save-empty-scoreboard-teams: true
   track-plugin-scoreboards: false
