@@ -87,20 +87,22 @@ decompressed-bytes-per-second = 5242880
 [servers]
 # Configure your servers here. Each key represents the server's name, and the value
 # represents the IP address of the server to connect to.
-amber_smp = "amber-smp:25565"
+amber-smp = "amber-smp:25565"
+pumpkin-anarchy = "pumpkin-anarchy:25565"
 
 # In what order we should try servers when a player logs in or is kicked from a server.
 try = [
-    "amber_smp"
+    "amber-smp",
+    "pumpkin-anarchy"
 ]
 
 [forced-hosts]
 # Configure your forced hosts here.
 "amber-smp.coder2195.dev" = [
-    "amber_smp"
+    "amber-smp"
 ]
 "amber-smp.amb3r.li" = [
-    "amber_smp"
+    "amber-smp"
 ]
 
 [advanced]

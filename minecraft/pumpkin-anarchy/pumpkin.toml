@@ -83,7 +83,7 @@ enabled = false
 enabled = true
 address = "0.0.0.0:25565"
 encryption = true
-online_mode = true
+online_mode = false
 max_players = 1000
 view_distance = 16
 simulation_distance = 10
@@ -96,7 +96,7 @@ threshold = 256
 level = 4
 
 [networking.java.authentication]
-enabled = true
+enabled = false
 fallbacks = []
 profile_by_name_fallbacks = []
 profile_by_uuid_fallbacks = []
@@ -222,4 +222,3 @@ verify_signatures = true
 
 [advancement]
 save_advancements = true
-

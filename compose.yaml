@@ -7,10 +7,10 @@ services:
       - no-new-privileges:true
     network_mode: 'host'
     environment:
-      CLOUDFLARE_API_TOKEN_FILE: /run/secrets/cloudflare_api_token
+      CLOUDFLARE_API_TOKEN_FILE: /run/secrets/cloudflare-api-token
       DOMAINS: server.coder2195.dev
     secrets:
-      - cloudflare_api_token
+      - cloudflare-api-token
 
   postgres-db:
     restart: always
@@ -18,15 +18,15 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_USER: coder2195
-      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/
-      - ./postgresql:/etc/postgresql_config/
-    command: postgres -c config_file=/etc/postgresql_config/postgresql.conf
+      - postgres-data:/var/lib/postgresql/
+      - ./postgresql:/etc/postgresql-config/
+    command: postgres -c config_file=/etc/postgresql-config/postgresql.conf
     secrets:
-      - postgres_password
+      - postgres-password
 
   caddy:
     restart: always
@@ -39,33 +39,50 @@ services:
       - "443:443"
       - "443:443/udp"
     volumes:
-      - $PWD/caddy/:/etc/caddy/
-      - $PWD/site:/var/www/html
-      - caddy_data:/data
-      - caddy_config:/config
-
+      - ./caddy/:/etc/caddy/
+      - ./site:/var/www/html
+      - caddy-data:/data
+      - caddy-config:/config
 
   minecraft-proxy:
     restart: always
-    container_name: minecraft-proxy 
+    container_name: minecraft-proxy
     image: itzg/mc-proxy
     environment:
       TYPE: VELOCITY
       REPLACE_ENV_VARIABLES: "true"
-      CFG_MOTD: "Server hosted by &4&kaaa&k &4&lAmber &kaaa&k&r\nLike the server? support at &b&nko-fi.com/coder2195"
+      CFG_MOTD: "Server hosted by &4&kaaa&k &4&lAmber &kaaa&k&r
+
+        Like the server? support at &b&nko-fi.com/coder2195"
     ports:
       - "25565:25565"
     volumes:
       - ./minecraft/velocity.toml:/config/velocity.toml
-      - ./secrets/velocity_secret.txt:/config/forwarding.secret
-      - minecraft_proxy:/server
+      - ./secrets/velocity-secret.txt:/config/forwarding.secret
+      - minecraft-proxy:/server
+
+  minecraft-setup:
+    container_name: minecraft-setup
+    build: ./minecraft/
+    volumes:
+      - amber-smp:/amber-smp
+      - pumpkin-anarchy:/pumpkin-anarchy
+      - ./minecraft/pumpkin-anarchy:/template/pumpkin-anarchy
+      - ./minecraft/amber-smp:/template/amber-smp
+    secrets:
+      - velocity-secret
 
   amber-smp:
+    depends_on:
+      minecraft-setup:
+        condition: service_completed_successfully
+        restart: true
     restart: always
     container_name: amber-smp
     image: itzg/minecraft-server:latest
     volumes:
-      - amber_smp:/data
+      - amber-smp:/data
+      - ./minecraft/amber-smp/server.properties:/data/server.properties
     environment:
       TYPE: LEAF
       VERSION: 26.2
@@ -75,13 +92,15 @@ services:
       SYNC_SKIP_NEWER_IN_DESTINATION: false
 
   pumpkin-anarchy:
+    depends_on:
+      minecraft-setup:
+        condition: service_completed_successfully
+        restart: true
     restart: always
-    # Make sure to change the tag to the pumpkin version you want to use.
-    # https://github.com/Pumpkin-MC/Pumpkin/pkgs/container/pumpkin/versions?filters%5Bversion_type%5D=tagged
     image: "ghcr.io/pumpkin-mc/pumpkin:master"
     container_name: pumpkin-anarchy
     volumes:
-      - pumpkin_anarchy:/pumpkin
+      - pumpkin-anarchy:/pumpkin
     security_opt:
       - no-new-privileges:true
     stdin_open: true
@@ -89,20 +108,19 @@ services:
     cap_drop:
       - ALL
     read_only: true
-      
+
 volumes:
-  postgres_data:
-  caddy_data:
-  caddy_config:
-  amber_smp:
-  pumpkin_anarchy:
-  minecraft_proxy:
+  postgres-data:
+  caddy-data:
+  caddy-config:
+  amber-smp:
+  pumpkin-anarchy:
+  minecraft-proxy:
 
 secrets:
-  cloudflare_api_token:
-    file: secrets/cloudflare_api_token.txt
-  postgres_password:
-    file: secrets/postgres_password.txt
-  velocity_secret:
-    file: secrets/velocity_secret.txt
-
+  cloudflare-api-token:
+    file: secrets/cloudflare-api-token.txt
+  postgres-password:
+    file: secrets/postgres-password.txt
+  velocity-secret:
+    file: secrets/velocity-secret.txt
