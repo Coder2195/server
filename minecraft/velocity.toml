@@ -87,20 +87,20 @@ decompressed-bytes-per-second = 5242880
 [servers]
 # Configure your servers here. Each key represents the server's name, and the value
 # represents the IP address of the server to connect to.
-wic_smp = "wic-smp:25565"
+amber_smp = "amber-smp:25565"
 
 # In what order we should try servers when a player logs in or is kicked from a server.
 try = [
-    "wic_smp"
+    "amber_smp"
 ]
 
 [forced-hosts]
 # Configure your forced hosts here.
-"wic-smp.coder2195.dev" = [
-    "wic_smp"
+"amber-smp.coder2195.dev" = [
+    "amber_smp"
 ]
-"wic-smp.amb3r.li" = [
-    "wic_smp"
+"amber-smp.amb3r.li" = [
+    "amber_smp"
 ]
 
 [advanced]

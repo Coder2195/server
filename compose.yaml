@@ -60,16 +60,12 @@ services:
       - ./secrets/velocity_secret.txt:/config/forwarding.secret
       - minecraft_proxy:/server
 
-  wic-smp:
-    secrets:
-      - velocity_secret
+  amber-smp:
     restart: always
-    container_name: wic-smp
+    container_name: amber-smp
     image: itzg/minecraft-server:latest
     volumes:
-      - ./minecraft/global_patches.json:/config/global_patches.json
-      - ./minecraft/paper-global.yml:/config/paper-global.yml
-      - wic_smp:/data
+      - amber_smp:/data
     environment:
       TYPE: LEAF
       VERSION: 26.2
@@ -77,18 +73,29 @@ services:
       EULA: TRUE
       DEBUG: TRUE
       SYNC_SKIP_NEWER_IN_DESTINATION: false
-      PATCH_DEFINITIONS: "/config/global_patches.json"
-      REPLACE_ENV_VARIABLES: "TRUE"
-      # define an optional prefix for your env variables you want to replace
-      ENV_VARIABLE_PREFIX: "CFG_"
-      # and here are the actual variables
-      CFG_VELOCITY_SECRET_FILE: "/run/secrets/velocity_secret"
-   
+
+  pumpkin-anarchy:
+    restart: always
+    # Make sure to change the tag to the pumpkin version you want to use.
+    # https://github.com/Pumpkin-MC/Pumpkin/pkgs/container/pumpkin/versions?filters%5Bversion_type%5D=tagged
+    image: "ghcr.io/pumpkin-mc/pumpkin:master"
+    container_name: pumpkin-anarchy
+    volumes:
+      - pumpkin_anarchy:/pumpkin
+    security_opt:
+      - no-new-privileges:true
+    stdin_open: true
+    tty: true
+    cap_drop:
+      - ALL
+    read_only: true
+      
 volumes:
   postgres_data:
   caddy_data:
   caddy_config:
-  wic_smp:
+  amber_smp:
+  pumpkin_anarchy:
   minecraft_proxy:
 
 secrets:
