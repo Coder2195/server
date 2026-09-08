@@ -71,6 +71,7 @@ services:
       - ./minecraft/amber-smp:/template/amber-smp
     secrets:
       - velocity-secret
+      - rcon-password
 
   amber-smp:
     depends_on:
@@ -96,8 +97,10 @@ services:
       minecraft-setup:
         condition: service_completed_successfully
         restart: true
+    ports:
+      - "27000:25565"
     restart: always
-    image: "ghcr.io/pumpkin-mc/pumpkin:master"
+    image: "ghcr.io/pumpkin-mc/pumpkin:latest"
     container_name: pumpkin-anarchy
     volumes:
       - pumpkin-anarchy:/pumpkin
@@ -124,3 +127,5 @@ secrets:
     file: secrets/postgres-password.txt
   velocity-secret:
     file: secrets/velocity-secret.txt
+  rcon-password:
+    file: secrets/rcon-password.txt

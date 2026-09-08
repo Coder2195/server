@@ -96,7 +96,7 @@ threshold = 256
 level = 4
 
 [networking.java.authentication]
-enabled = false
+enabled = true
 fallbacks = []
 profile_by_name_fallbacks = []
 profile_by_uuid_fallbacks = []
