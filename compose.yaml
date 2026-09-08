@@ -83,7 +83,6 @@ services:
     image: itzg/minecraft-server:latest
     volumes:
       - amber-smp:/data
-      - ./minecraft/amber-smp/server.properties:/data/server.properties
     environment:
       TYPE: LEAF
       VERSION: 26.2
