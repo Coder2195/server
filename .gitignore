@@ -17,3 +17,5 @@
 !minecraft
 !minecraft/*
 !minecraft/**/*
+
+!.config/fastfetch/*
