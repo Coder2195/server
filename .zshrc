@@ -109,3 +109,5 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 fastfetch
+echo ""
+cat words_of_affirmation.txt

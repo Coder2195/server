@@ -22,3 +22,4 @@
 .config/*
 !.config/fastfetch/
 !.config/fastfetch/**
+!words_of_affirmation.txt
