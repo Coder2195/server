@@ -102,7 +102,13 @@ try = [
     "amber-smp"
 ]
 "amber-smp.amb3r.li" = [
-    "amber-smp"
+  "amber-smp"
+]
+"pumpkin-anarchy.coder2195.dev" = [
+  "pumpkin-anarchy"
+]
+"pumpkin-anarchy.amb3r.li" = [
+"pumpkin-anarchy"
 ]
 
 [advanced]
