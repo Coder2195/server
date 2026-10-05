@@ -85,7 +85,7 @@ services:
       - amber-smp:/data
     environment:
       TYPE: LEAF
-      VERSION: 26.2
+      VERSION: 26.3
       ONLINE_MODE: FALSE
       EULA: TRUE
       DEBUG: TRUE
