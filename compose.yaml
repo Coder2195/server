@@ -111,6 +111,23 @@ services:
       - ALL
     read_only: true
 
+  wakapi:
+    init: true
+    restart: always
+    container_name: wakapi
+    image: "ghcr.io/muety/wakapi:latest"
+    environment:
+      # See README.md and config.default.yml for all config options
+      WAKAPI_DB_TYPE: "sqlite3"
+      WAKAPI_DB_NAME: "/data/wakapi.db"
+      WAKAPI_PASSWORD_SALT_FILE: "/run/secrets/wakapi-salt"   # alternatively, set WAKAPI_PASSWORD_SALT directly without the use of secrets
+      # WAKAPI_MAIL_SMTP_PASS_FILE: "/run/secrets/smtp_pass"
+    volumes: 
+    - wakapi-data:/data
+    secrets:
+    - wakapi-salt
+    
+    
 volumes:
   postgres-data:
   caddy-data:
@@ -118,6 +135,7 @@ volumes:
   amber-smp:
   pumpkin-anarchy:
   minecraft-proxy:
+  wakapi-data:
 
 secrets:
   cloudflare-api-token:
@@ -128,3 +146,6 @@ secrets:
     file: secrets/velocity-secret.txt
   rcon-password:
     file: secrets/rcon-password.txt
+  wakapi-salt:
+    file: secrets/wakapi-salt.txt
+
