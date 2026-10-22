@@ -121,6 +121,7 @@ services:
       WAKAPI_DB_TYPE: "sqlite3"
       WAKAPI_DB_NAME: "/data/wakapi.db"
       WAKAPI_PASSWORD_SALT_FILE: "/run/secrets/wakapi-salt"   # alternatively, set WAKAPI_PASSWORD_SALT directly without the use of secrets
+      WAKAPI_HEARTBEAT_MAX_AGE: "99999h"
       # WAKAPI_MAIL_SMTP_PASS_FILE: "/run/secrets/smtp_pass"
     volumes: 
     - wakapi-data:/data

@@ -1,8 +1,8 @@
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/refs/heads/dev/doc/json_schema.json",
   "logo": {
-    "source": "~/.config/fastfetch/logo.sixel",
-    "type": "raw",
+    // "source": "~/.config/fastfetch/logo.sixel",
+    // "type": "raw",
     "height": 20,
     "width": 30,
     "padding": {
