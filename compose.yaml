@@ -112,6 +112,7 @@ services:
     read_only: true
 
   wakapi:
+    user: "root:root"
     init: true
     restart: always
     container_name: wakapi
@@ -123,12 +124,20 @@ services:
       WAKAPI_PASSWORD_SALT_FILE: "/run/secrets/wakapi-salt"   # alternatively, set WAKAPI_PASSWORD_SALT directly without the use of secrets
       WAKAPI_HEARTBEAT_MAX_AGE: "99999h"
       WAKAPI_AVATAR_URL_TEMPLATE: "https://gravatar.com/avatar/{email_hash}"
-      # WAKAPI_MAIL_SMTP_PASS_FILE: "/run/secrets/smtp_pass"
+      WAKAPI_MAIL_ENABLED: true
+      WAKAPI_MAIL_PROVIDER: "smtp"
+      WAKAPI_MAIL_SMTP_HOST: "mail.spacemail.com"
+      WAKAPI_MAIL_SMTP_PORT: 465
+      WAKAPI_MAIL_SENDER: Wakapi <noreply@coder2195.dev>
+      WAKAPI_MAIL_SMTP_USER: contact@coder2195.dev
+      WAKAPI_MAIL_SMTP_PASS_FILE: "/run/secrets/spacemail-password"
+      WAKAPI_MAIL_SMTP_TLS: true
     volumes: 
     - wakapi-data:/data
     secrets:
     - wakapi-salt
-    
+    - spacemail-password
+         
     
 volumes:
   postgres-data:
@@ -150,4 +159,6 @@ secrets:
     file: secrets/rcon-password.txt
   wakapi-salt:
     file: secrets/wakapi-salt.txt
+  spacemail-password:
+    file: secrets/spacemail-password.txt
 
