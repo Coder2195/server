@@ -15,18 +15,37 @@ services:
   postgres-db:
     restart: always
     container_name: postgres-db
-    image: postgres:latest
+    image: postgres:19
     environment:
-      POSTGRES_USER: coder2195
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/
-      - ./postgresql:/etc/postgresql-config/
-    command: postgres -c config_file=/etc/postgresql-config/postgresql.conf
+      # comment below binds when init
+      - ./postgresql/postgresql.conf:/var/lib/postgresql/19/docker/postgresql.conf
+      - ./postgresql/pg_hba.conf:/var/lib/postgresql/19/docker/pg_hba.conf
+      - ./postgresql/server.crt:/var/lib/postgresql/19/docker/server.crt
+      - ./postgresql/server.key:/var/lib/postgresql/19/docker/server.key
     secrets:
       - postgres-password
+  
+  #postgres-db-upgrade:
+  #  restart: no
+  #  container_name: postgres-db-upgrade
+  #  image: tianon/postgres-upgrade:18-to-19
+  #  environment:
+  #    POSTGRES_USER: coder2195
+  #    POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
+  #  ports:
+  #    - "5432:5432"
+  #  volumes:
+  #    - postgres-data:/var/lib/postgresql/
+  #    - ./postgresql:/etc/postgresql-config/
+  #  secrets:
+  #    - postgres-password
+
+
 
   caddy:
     restart: always
