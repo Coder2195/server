@@ -2,7 +2,7 @@
 !.gitignore
 !compose.yaml
 !compose.yml
-!README.md
+!*.md
 !LICENSE
 
 !.zshrc
